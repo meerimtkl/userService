@@ -7,10 +7,13 @@ import com.example.userservice.model.responses.UserResponse;
 import com.example.userservice.model.responses.UserStatusResponse;
 import com.example.userservice.repositories.UserRepo;
 import com.example.userservice.service.UserService;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 //Выполнила Мамыралиева Мээрим
 @RestController
@@ -73,8 +76,11 @@ public class UserController {
      */
     @GetMapping("/getUsers")
     private List<UserDto> getUsers(@RequestParam(required = false, defaultValue = "ONLINE") UserStatus status,
-                                @RequestParam(required = false, value = "id") Long id) {
-        return userService.getAllUsers(status, id);
+                                   @RequestParam(required = false)  @DateTimeFormat(pattern = "yyyy-mm-dd hh:mm:ss") Timestamp timestamp)
+
+
+            {
+        return userService.getAllUsers(status, timestamp);
     }
 
 

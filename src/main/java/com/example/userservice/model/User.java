@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -31,6 +32,8 @@ public class User {
     //    @JsonFormat(pattern="yyyy-MM-dd")
 //    LocalDate userTimestamp;
     @Column(name = "status_timestamp")
+    @DateTimeFormat(pattern =  "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Timestamp statusTimestamp;
 
 }

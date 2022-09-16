@@ -6,6 +6,7 @@ import com.example.userservice.microservice.json.Response;
 import com.example.userservice.model.User;
 import com.example.userservice.model.dto.UserDto;
 import com.example.userservice.model.enums.UserStatus;
+import com.example.userservice.model.responses.ListUserResponse;
 import com.example.userservice.model.responses.UserResponse;
 import com.example.userservice.model.responses.UserStatusResponse;
 import com.example.userservice.repositories.UserRepo;
@@ -72,7 +73,33 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDto(user);
     }
+    public List<UserDto> getAllUsers(UserStatus status, Timestamp timestamp) {
+        ListUserResponse userList1=new ListUserResponse();
+        if (timestamp != null) {
 
+            if (status != null) {
+
+                List<User> userList=userRepo.findByStatusAndStatusTimestampAfter(status, timestamp);
+
+                List<UserDto> userDtoList=userMapper.toDtos(userList);
+                return userDtoList;
+            }
+            List<User> userList=userRepo.findByStatusTimestampAfter(timestamp);
+
+            List<UserDto> userDtoList=userMapper.toDtos(userList);
+            return userDtoList;
+
+        } else if (status != null) {
+
+            List<User> userList= userRepo.findByStatus(status);
+            List<UserDto> userDtoList=userMapper.toDtos(userList);
+            return userDtoList;
+        }
+        List<User> userList=userRepo.findAll();
+
+        List<UserDto> userDtoList=userMapper.toDtos(userList);
+        return userDtoList;
+    }
     @Override
     public UserStatusResponse updateStatus(Long id, UserStatus userStatus) {
         Timestamp updateTime = new Timestamp((new Date()).getTime());
@@ -117,29 +144,5 @@ public class UserServiceImpl implements UserService {
         return userDtoList;
     }
 */
-   public List<UserDto> getAllUsers(UserStatus status, Long id) {
-       if (id != null) {
-           Timestamp timestamp = new Timestamp(id);
-           if (status != null) {
-               List<User> userList=userRepo.findByStatusAndStatusTimestampAfter(status, timestamp);
 
-               List<UserDto> userDtoList=userMapper.toDtos(userList);
-               return userDtoList;
-           }
-           List<User> userList=userRepo.findByStatusTimestampAfter(timestamp);
-
-           List<UserDto> userDtoList=userMapper.toDtos(userList);
-           return userDtoList;
-
-       } else if (status != null) {
-
-           List<User> userList= userRepo.findByStatus(status);
-           List<UserDto> userDtoList=userMapper.toDtos(userList);
-           return userDtoList;
-       }
-       List<User> userList=userRepo.findAll();
-
-       List<UserDto> userDtoList=userMapper.toDtos(userList);
-       return userDtoList;
-   }
 }

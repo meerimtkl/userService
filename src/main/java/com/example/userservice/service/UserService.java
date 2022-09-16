@@ -9,6 +9,7 @@ import com.example.userservice.repositories.UserRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public interface UserService {
     UserDto addUser(Long id, MultipartFile file);
 
     User getById(Long id);
-    List<UserDto> getAllUsers(UserStatus status, Long id);
+    List<UserDto> getAllUsers(UserStatus status, Timestamp timestamp);
 
 
 }
